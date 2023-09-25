@@ -4,15 +4,9 @@ import { connect, useDispatch, useSelector } from "react-redux";
 
 function App(props) {
 
-  // console.log(data)
-  // const dispatch = useDispatch();
-  
-  useEffect( () => {
-    makeRequest() 
+  useEffect(() => {
+    makeRequest()
   }, []);
-  
-  // const data = useSelector(state => state.userData)
-  // console.log(data)
 
   async function makeRequest() {
     try {
@@ -22,16 +16,12 @@ function App(props) {
         throw new Error(`Status: ${response.status} Status Text: ${response.statusText}`)
       }
       const userData = await response.json();
-      // dispatch(save(userData));
       props.save(userData)
-      // console.log(`useEffect ${userData}`) 
     }
     catch (err) {
       console.log(err)
     }
   }
-
-  console.log(props.userDataRedux)
 
   return (
     <div>Data Fetch</div>
@@ -46,4 +36,4 @@ const mapDispatchToProps = {
   save: receiveData
 }
 
-export default  connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
