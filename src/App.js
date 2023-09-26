@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import { receiveData } from "./action";
 import { connect, useDispatch, useSelector } from "react-redux";
 
+import Form from "./Form/Form";
+
 function App(props) {
+
+  const formData = useSelector(state => state.formData);
+  console.log(formData)
 
   useEffect(() => {
     makeRequest()
@@ -16,7 +21,7 @@ function App(props) {
         throw new Error(`Status: ${response.status} Status Text: ${response.statusText}`)
       }
       const userData = await response.json();
-      props.save(userData)
+      props.receiveData(userData)
     }
     catch (err) {
       console.log(err)
@@ -24,16 +29,25 @@ function App(props) {
   }
 
   return (
-    <div>Data Fetch</div>
+    <>
+      <div>Data Fetch</div>
+      <Form />
+      <div>
+        Saved Data:
+        <p>First Name : {props.formData.firstName}</p>
+        <p>Last Name : {props.formData.lastName}</p>
+      </div>
+    </>
   );
 }
 
 const mapStateToProps = (state) => ({
-  userDataRedux: state.userData
+  userData: state.userData,
+  formData: state.formData
 })
 
 const mapDispatchToProps = {
-  save: receiveData
+  receiveData: receiveData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
